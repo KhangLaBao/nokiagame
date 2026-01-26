@@ -1,0 +1,63 @@
+body {
+    background-color: rgb(200, 16, 46);
+    color: #FFFF00;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 10px;
+}
+
+/* IMAGE SCALING FOR NOKIA */
+img {
+    max-width: 100%;
+    height: auto;
+    max-height: 120px;
+}
+
+/* MAIN HEADER */
+h1 {
+    font-size: 16px;
+    letter-spacing: 2px;
+    border-bottom: 2px solid #FFFF00;
+    padding-bottom: 6px;
+    color: #FFFFFF;
+}
+
+h6 {
+    font-size: 10px;
+    color: #FFFF00;
+    margin-top: 4px;
+}
+
+/* NOTICE / WARNING */
+h3 {
+    border: 1px solid #FFFF00;
+    padding: 6px;
+    margin: 12px auto;
+    max-width: 280px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+}
+
+/* TEXT */
+p {
+    font-size: 12px;
+    margin: 6px 0;
+}
+
+/* GAME ENTRY */
+button {
+    display: inline-block;
+    margin: 6px;
+    padding: 6px 12px;
+    background-color: #FFFF00;
+    border: 2px solid #FFFFFF;
+    font-weight: bold;
+    font-size: 12px;
+    color: rgb(200, 16, 46);
+}
+
+/* SUBTLE TERMINAL FEEL */
+button:active {
+    background-color: #FFF;
+    color: #000;
+}
