@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JS Test - Snake</title>
+<a href="../../index.html">◀ Exit to main menu</a>
+
+<style>
+body {
+  font-family: serif;
+  background: #ffffff;
+}
+#game {
+  font-family: monospace;
+  line-height: 1;
+}
+</style>
+</head>
+
+<body>
+
+<h3>JS TEST: SNAKE</h3>
+<p>Use arrow keys</p>
+
+<pre id="game"></pre>
+
+<script>
+var w = 10;
+var h = 10;
+var x = 5;
+var y = 5;
+var dx = 1;
+var dy = 0;
+
+function draw() {
+  var out = "";
+  for (var j = 0; j < h; j++) {
+    for (var i = 0; i < w; i++) {
+      out += (i == x && j == y) ? "@" : ".";
+    }
+    out += "\n";
+  }
+  document.getElementById("game").textContent = out;
+}
+
+document.onkeydown = function(e) {
+  if (e.keyCode == 37) { dx = -1; dy = 0; } // left
+  if (e.keyCode == 38) { dx = 0; dy = -1; } // up
+  if (e.keyCode == 39) { dx = 1; dy = 0; } // right
+  if (e.keyCode == 40) { dx = 0; dy = 1; } // down
+};
+
+setInterval(function() {
+  x += dx;
+  y += dy;
+  if (x < 0) x = w - 1;
+  if (y < 0) y = h - 1;
+  if (x >= w) x = 0;
+  if (y >= h) y = 0;
+  draw();
+}, 500);
+
+draw();
+</script>
+
+</body>
+</html>
