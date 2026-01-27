@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bunker Maze</title>
+</head>
+
+<body style="
+  background:#111;
+  color:#0f0;
+  font-family:monospace;
+  text-align:center;
+">
+
+<h3>BUNKER MAZE</h3>
+<p>Escape the bunker, Comrade.</p>
+
+<pre id="maze"></pre>
+
+<!-- CONTROLS -->
+<button onclick="move(0,-1)">▲</button><br>
+<button onclick="move(-1,0)">◀</button>
+<button onclick="move(1,0)">▶</button><br>
+<button onclick="move(0,1)">▼</button>
+
+<p id="msg"></p>
+
+<script>
+// MAZE MAP
+// █ = wall
+//   = empty
+// E = exit
+var map = [
+  "██████████",
+  "█@       █",
+  "█ █████ ██",
+  "█ █   █  █",
+  "█ █ ████ █",
+  "█   █    █",
+  "███ █ ████",
+  "█       E█",
+  "██████████"
+];
+
+var px = 1;
+var py = 1;
+
+function draw() {
+  var output = "";
+  for (var y = 0; y < map.length; y++) {
+    for (var x = 0; x < map[y].length; x++) {
+      if (x === px && y === py) {
+        output += "@";
+      } else {
+        output += map[y][x];
+      }
+    }
+    output += "\n";
+  }
+  document.getElementById("maze").textContent = output;
+}
+
+function move(dx, dy) {
+  var nx = px + dx;
+  var ny = py + dy;
+  var tile = map[ny][nx];
+
+  if (tile === "█") {
+    document.getElementById("msg").textContent =
+      "Wall blocks the way.";
+    return;
+  }
+
+  px = nx;
+  py = ny;
+
+  if (tile === "E") {
+    document.getElementById("msg").textContent =
+      "MISSION COMPLETE. YOU ESCAPED.";
+  } else {
+    document.getElementById("msg").textContent = "";
+  }
+
+  draw();
+}
+
+draw();
+</script>
+
+<p style="font-size:10px;">
+Optimized for Nokia / Opera Mini<br>
+One move = one decision<br>
+<buttpon onclick="window.location.href='../../index.html'">◀ Exit to main menu</button>
+</p>
+
+</body>
+</html>
