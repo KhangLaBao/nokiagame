@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Movement Test</title>
+</head>
+
+<body style="text-align:center;font-family:Arial;">
+
+<h3>OBJECT MOVEMENT TEST</h3>
+<p>Press START. If square moves by itself, JS animation works.</p>
+
+<!-- GAME AREA -->
+<div style="width:140px;height:40px;
+            border:2px solid black;
+            margin:10px auto;
+            position:relative;">
+
+  <div id="obj"
+       style="width:10px;height:10px;
+              background:black;
+              position:absolute;
+              left:0px;
+              top:14px;">
+  </div>
+</div>
+
+<button onclick="start()">▶ START</button>
+<button onclick="stop()">■ STOP</button>
+
+<script>
+var x = 0;
+var timer = null;
+
+function start() {
+  if (timer) return; // prevent double start
+  timer = setInterval(move, 200);
+}
+
+function stop() {
+  clearInterval(timer);
+  timer = null;
+}
+
+function move() {
+  x += 5;
+  if (x > 130) x = 0;
+  document.getElementById("obj").style.left = x + "px";
+}
+</script>
+
+<p style="font-size:10px;">
+Interval: 200ms<br>
+Opera Mini safe
+</p>
+
+</body>
+</html>
