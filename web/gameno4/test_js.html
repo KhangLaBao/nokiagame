@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JS Test</title>
+</head>
+
+<body style="text-align:center; font-family:Arial;">
+
+<h3>JS MOVEMENT TEST</h3>
+<p>If dot moves, JS WORKS.</p>
+
+<!-- GAME AREA -->
+<div id="box"
+     style="width:120px;height:120px;
+            border:2px solid black;
+            margin:10px auto;
+            position:relative;">
+
+  <div id="dot"
+       style="width:10px;height:10px;
+              background:black;
+              position:absolute;
+              top:55px;
+              left:55px;">
+  </div>
+</div>
+
+<!-- CONTROLS -->
+<button onclick="up()">▲</button><br>
+
+<button onclick="left()">◀</button>
+<button onclick="right()">▶</button><br>
+
+<button onclick="down()">▼</button>
+
+<script>
+var x = 55;
+var y = 55;
+
+function update() {
+  document.getElementById("dot").style.left = x + "px";
+  document.getElementById("dot").style.top  = y + "px";
+}
+
+function up()    { y -= 5; update(); }
+function down()  { y += 5; update(); }
+function left()  { x -= 5; update(); }
+function right() { x += 5; update(); }
+</script>
+<button onclick="window.location.href='../../index.html'">◀ Exit to main menu</button>
+</body>
+</html>
