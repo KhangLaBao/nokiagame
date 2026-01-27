@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Nokia Keypad Test</title>
+</head>
+
+<body style="text-align:center;font-family:Arial;">
+
+<h3>KEYPAD MOVEMENT TEST</h3>
+<p>Use Nokia keys:</p>
+<p>2 = UP | 4 = LEFT | 6 = RIGHT | 8 = DOWN</p>
+
+<!-- GAME AREA -->
+<div style="width:120px;height:120px;
+            border:2px solid black;
+            margin:10px auto;
+            position:relative;">
+
+  <div id="player"
+       style="width:12px;height:12px;
+              background:black;
+              position:absolute;
+              left:54px;
+              top:54px;">
+  </div>
+</div>
+
+<!-- INVISIBLE / SMALL BUTTONS WITH ACCESSKEY -->
+<button accesskey="2" onclick="moveUp()">UP</button>
+<button accesskey="4" onclick="moveLeft()" >LEFT</button>
+<button accesskey="6" onclick="moveRight()" >RIGHT</button>
+<button accesskey="8" onclick="moveDown()" >DOWN</button>
+
+<script>
+var x = 54;
+var y = 54;
+
+function update() {
+  document.getElementById("player").style.left = x + "px";
+  document.getElementById("player").style.top  = y + "px";
+}
+
+function moveUp()    { y -= 6; update(); }
+function moveDown()  { y += 6; update(); }
+function moveLeft()  { x -= 6; update(); }
+function moveRight() { x += 6; update(); }
+</script>
+
+<p style="font-size:10px;">
+JS + accesskey test<br>
+Optimized for Nokia / Opera Mini
+</p>
+
+</body>
+</html>
