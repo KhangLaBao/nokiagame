@@ -1,37 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=120, height=160, user-scalable=no">
   <title>Bunker Maze</title>
 </head>
 
 <body style="
   background:#111;
   color:#0f0;
-  font-family:monospace;
-  text-align:left;
+  font-family:Courier, monospace;
+  font-size:10px;
+  margin:1px;
+  padding:0;
+  width:120px;
+  height:160px;
+  overflow:hidden;
 ">
 
-<h3>BUNKER MAZE</h3>
-<p>Escape the bunker, Comrade.</p>
+<style>
+.dpad {
+  width:20px;
+  height:20px;
+  font-size:12px;
+  font-family:Arial, sans-serif;
+  font-weight:bold;
+  margin:1px;
+  padding:0;
+  border:1px solid #0f0;
+}
+</style>
 
-<pre id="maze"></pre>
+<h3 style="margin:0;font-size:10px;padding:0;">BUNKER MAZE</h3>
+<p style="margin:0;font-size:9px;padding:0;">
+Escape!
+</p>
+
+<pre id="maze"
+style="
+  font-family:Courier, monospace;
+  font-size:9px;
+  line-height:9px;
+  letter-spacing:0;
+  margin:1px 0;
+  padding:0;
+">
+</pre>
 
 <!-- CONTROLS -->
-<button onclick="move(0,-1)">▲</button><br>
-<button onclick="move(-1,0)">◀</button>
-<button onclick="move(1,0)">▶</button><br>
-<button onclick="move(0,1)">▼</button>
+<div style="text-align:center; margin:1px 0; padding:0;">
 
-<p id="msg"></p>
+  <div style="margin:0;">
+    <button onclick="move(0,-1)" class="dpad">▲</button>
+  </div>
+
+  <div style="margin:0;">
+    <button onclick="move(-1,0)" class="dpad">◀</button>
+    <button onclick="move(1,0)" class="dpad">▶</button>
+  </div>
+
+  <div style="margin:0;">
+    <button onclick="move(0,1)" class="dpad">▼</button>
+  </div>
+
+</div>
+
+
+<p id="msg" style="font-size:8px;margin:1px 0;padding:0;height:10px;"></p>
 
 <script>
-// MAZE MAP
-// █ = wall
-//   = empty
-// E = exit
+// MAZE MAP (8x6 for tight Nokia screen)
 var map = [
   "██████████",
-  "█@       █",
+  "█        █",
   "█ █████ ██",
   "█ █   █  █",
   "█ █ ████ █",
@@ -45,24 +86,22 @@ var px = 1;
 var py = 1;
 
 function draw() {
-  var output = "";
+  var out = "";
   for (var y = 0; y < map.length; y++) {
     for (var x = 0; x < map[y].length; x++) {
-      if (x === px && y === py) {
-        output += "@";
-      } else {
-        output += map[y][x];
-      }
+      if (x === px && y === py) out += "@";
+      else out += map[y][x];
     }
-    output += "\n";
+    out += "\n";
   }
-  document.getElementById("maze").textContent = output;
+  document.getElementById("maze").textContent = out;
 }
 
 function move(dx, dy) {
   var nx = px + dx;
   var ny = py + dy;
-  var tile = map[ny][nx];
+
+  var tile = map[ny].charAt(nx);
 
   if (tile === "█") {
     document.getElementById("msg").textContent =
@@ -75,7 +114,7 @@ function move(dx, dy) {
 
   if (tile === "E") {
     document.getElementById("msg").textContent =
-      "MISSION COMPLETE. YOU ESCAPED.";
+      "MISSION COMPLETE.";
   } else {
     document.getElementById("msg").textContent = "";
   }
@@ -86,10 +125,10 @@ function move(dx, dy) {
 draw();
 </script>
 
-<p style="font-size:10px;">
-Optimized for Nokia / Opera Mini<br>
-One move = one decision<br>
-<button onclick="window.location.href='../../index.html'">◀ Exit to main menu</button>
+<p style="font-size:9px;margin:1px 0;padding:0;">
+<button onclick="window.location.href='../../index.html'" style="padding:1px;font-size:8px;">
+◀ Exit
+</button>
 </p>
 
 </body>
