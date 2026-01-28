@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>State Tic Tac Toe</title>
+</head>
+
+<body style="
+  background:#111;
+  color:#0f0;
+  font-family:Courier, monospace;
+  font-size:12px;
+  text-align:center;
+  margin:4px;
+">
+
+<h3 style="margin:2px 0;">STATE TIC TAC TOE</h3>
+<p style="margin:2px 0;">X = YOU | O = STATE</p>
+
+<!-- GAME BOARD -->
+<div id="board">
+
+  <div>
+    <button class="cell" onclick="play(0)"></button>
+    <button class="cell" onclick="play(1)"></button>
+    <button class="cell" onclick="play(2)"></button>
+  </div>
+  <div>
+    <button class="cell" onclick="play(3)"></button>
+    <button class="cell" onclick="play(4)"></button>
+    <button class="cell" onclick="play(5)"></button>
+  </div>
+  <div>
+    <button class="cell" onclick="play(6)"></button>
+    <button class="cell" onclick="play(7)"></button>
+    <button class="cell" onclick="play(8)"></button>
+  </div>
+
+</div>
+
+<p id="msg" style="margin:4px 0;"></p>
+
+<button onclick="resetGame()">RESET</button>
+
+<p style="font-size:10px;margin-top:6px;">
+<button onclick="window.location.href='../../index.html'">◀ Exit</button>
+</p>
+
+<script>
+var board = ["","","","","","","","",""];
+var turn = "X";
+var gameOver = false;
+
+function play(i) {
+  if (board[i] !== "" || gameOver) return;
+
+  board[i] = turn;
+  draw();
+
+  if (checkWin(turn)) {
+    document.getElementById("msg").textContent =
+      (turn === "X") ?
+      "YOU OUTSMARTED THE STATE." :
+      "STATE PREVAILS.";
+    gameOver = true;
+    return;
+  }
+
+  if (isDraw()) {
+    document.getElementById("msg").textContent =
+      "DRAW. ACCEPTABLE OUTCOME.";
+    gameOver = true;
+    return;
+  }
+
+  turn = (turn === "X") ? "O" : "X";
+}
+
+function draw() {
+  var cells = document.getElementsByClassName("cell");
+  for (var i = 0; i < 9; i++) {
+    cells[i].textContent = board[i];
+  }
+}
+
+function checkWin(p) {
+  var w = [
+    [0,1,2],[3,4,5],[6,7,8],
+    [0,3,6],[1,4,7],[2,5,8],
+    [0,4,8],[2,4,6]
+  ];
+  for (var i = 0; i < w.length; i++) {
+    if (board[w[i][0]] === p &&
+        board[w[i][1]] === p &&
+        board[w[i][2]] === p)
+      return true;
+  }
+  return false;
+}
+
+function isDraw() {
+  for (var i = 0; i < 9; i++) {
+    if (board[i] === "") return false;
+  }
+  return true;
+}
+
+function resetGame() {
+  board = ["","","","","","","","",""];
+  turn = "X";
+  gameOver = false;
+  document.getElementById("msg").textContent = "";
+  draw();
+}
+
+draw();
+</script>
+
+<style>
+.cell {
+  width:28px;
+  height:28px;
+  font-size:16px;
+  font-family:Courier, monospace;
+  font-weight:bold;
+  margin:2px;
+}
+</style>
+
+</body>
+</html>
