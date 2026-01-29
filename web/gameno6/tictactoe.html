@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>State Tic Tac Toe</title>
+  <title>State Tic Tac Toe (Multi)</title>
 </head>
 
 <body style="
@@ -14,27 +14,24 @@
 ">
 
 <h3 style="margin:2px 0;">STATE TIC TAC TOE</h3>
-<p style="margin:2px 0;">X = YOU | O = STATE</p>
+<p style="margin:2px 0;">X = PLAYER 1 | O = PLAYER 2</p>
 
-<!-- GAME BOARD -->
 <div id="board">
-
   <div>
-    <button class="cell" onclick="play(0)"></button>
-    <button class="cell" onclick="play(1)"></button>
-    <button class="cell" onclick="play(2)"></button>
+    <button class="cell" onclick="play(0)">&nbsp;</button>
+    <button class="cell" onclick="play(1)">&nbsp;</button>
+    <button class="cell" onclick="play(2)">&nbsp;</button>
   </div>
   <div>
-    <button class="cell" onclick="play(3)"></button>
-    <button class="cell" onclick="play(4)"></button>
-    <button class="cell" onclick="play(5)"></button>
+    <button class="cell" onclick="play(3)">&nbsp;</button>
+    <button class="cell" onclick="play(4)">&nbsp;</button>
+    <button class="cell" onclick="play(5)">&nbsp;</button>
   </div>
   <div>
-    <button class="cell" onclick="play(6)"></button>
-    <button class="cell" onclick="play(7)"></button>
-    <button class="cell" onclick="play(8)"></button>
+    <button class="cell" onclick="play(6)">&nbsp;</button>
+    <button class="cell" onclick="play(7)">&nbsp;</button>
+    <button class="cell" onclick="play(8)">&nbsp;</button>
   </div>
-
 </div>
 
 <p id="msg" style="margin:4px 0;"></p>
@@ -42,7 +39,8 @@
 <button onclick="resetGame()">RESET</button>
 
 <p style="font-size:10px;margin-top:6px;">
-<button onclick="window.location.href='../../index.html'">◀ Exit</button>
+  <button onclick="window.location.href='../../index.html'">◀ Exit</button> <br>
+  <button onclick="window.location.href='title.html'">◀ Main Menu</button>
 </p>
 
 <script>
@@ -58,9 +56,7 @@ function play(i) {
 
   if (checkWin(turn)) {
     document.getElementById("msg").textContent =
-      (turn === "X") ?
-      "YOU OUTSMARTED THE STATE." :
-      "STATE PREVAILS.";
+      (turn === "X") ? "PLAYER X WINS." : "PLAYER O WINS.";
     gameOver = true;
     return;
   }
@@ -78,7 +74,7 @@ function play(i) {
 function draw() {
   var cells = document.getElementsByClassName("cell");
   for (var i = 0; i < 9; i++) {
-    cells[i].textContent = board[i];
+    cells[i].innerHTML = board[i] === "" ? "&nbsp;" : board[i];
   }
 }
 
@@ -117,12 +113,15 @@ draw();
 
 <style>
 .cell {
-  width:28px;
-  height:28px;
-  font-size:16px;
+  width:22px;
+  height:22px;
+  line-height:22px;
+  font-size:12px;
   font-family:Courier, monospace;
   font-weight:bold;
-  margin:2px;
+  margin:1px;
+  padding:0;
+  border:1px solid #888;
 }
 </style>
 

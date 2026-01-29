@@ -1,93 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>State Tic Tac Toe</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+  background:#111;
+  color:#0f0;
+  font-family:Courier, monospace;
+  font-size:12px;
+  text-align:center;
+  margin:4px;
+}
+
+.cell{
+  width:22px;
+  height:22px;
+  line-height:22px;   /* IMPORTANT */
+  font-size:14px;
+  padding:0;
+  margin:1px;
+  vertical-align:middle;
+}
+
+</style>
+</head>
+
+<body>
+
+<h3>STATE TIC TAC TOE</h3>
+<p>X = YOU | O = STATE</p>
+
+<div>
+  <button class="cell" onclick="play(0)"></button>
+  <button class="cell" onclick="play(1)"></button>
+  <button class="cell" onclick="play(2)"></button>
+</div>
+<div>
+  <button class="cell" onclick="play(3)"></button>
+  <button class="cell" onclick="play(4)"></button>
+  <button class="cell" onclick="play(5)"></button>
+</div>
+<div>
+  <button class="cell" onclick="play(6)"></button>
+  <button class="cell" onclick="play(7)"></button>
+  <button class="cell" onclick="play(8)"></button>
+</div>
+
+<p id="msg"></p>
+
+<button onclick="resetGame()">RESET</button>
+
+<p style="font-size:10px;">
+<button onclick="location.href='title.html'">◀ Main Menu</button> <br>
+<button onclick="location.href='../../index.html'">◀ Exit to Archive</button>
+</p>
+
 <script>
-var board = ["","","","","","","","",""];
-var gameOver = false;
+var board=["","","","","","","","",""];
+var gameOver=false;
 
-function play(i) {
-  if (board[i] !== "" || gameOver) return;
+function play(i){
+  if(board[i]!==""||gameOver)return;
 
-  // PLAYER MOVE
-  board[i] = "X";
+  board[i]="X";
   draw();
 
-  if (checkWin("X")) {
-    document.getElementById("msg").textContent =
-      "YOU OUTSMARTED THE STATE.";
-    gameOver = true;
-    return;
+  if(checkWin("X")){
+    msg("YOU OUTSMARTED THE STATE.");
+    gameOver=true; return;
+  }
+  if(isDraw()){
+    msg("DRAW. ACCEPTABLE OUTCOME.");
+    gameOver=true; return;
   }
 
-  if (isDraw()) {
-    document.getElementById("msg").textContent =
-      "DRAW. ACCEPTABLE OUTCOME.";
-    gameOver = true;
-    return;
-  }
-
-  // STATE MOVE (AI)
   stateMove();
 }
 
-function stateMove() {
-  var empty = [];
-  for (var i = 0; i < 9; i++) {
-    if (board[i] === "") empty.push(i);
-  }
+function stateMove(){
+  var e=[];
+  for(var i=0;i<9;i++) if(board[i]==="") e.push(i);
+  if(e.length===0)return;
 
-  if (empty.length === 0) return;
-
-  var choice = empty[Math.floor(Math.random() * empty.length)];
-  board[choice] = "O";
+  var c=e[Math.floor(Math.random()*e.length)];
+  board[c]="O";
   draw();
 
-  if (checkWin("O")) {
-    document.getElementById("msg").textContent =
-      "STATE PREVAILS.";
-    gameOver = true;
-    return;
-  }
-
-  if (isDraw()) {
-    document.getElementById("msg").textContent =
-      "DRAW. ACCEPTABLE OUTCOME.";
-    gameOver = true;
+  if(checkWin("O")){
+    msg("STATE PREVAILS.");
+    gameOver=true;
+  }else if(isDraw()){
+    msg("DRAW. ACCEPTABLE OUTCOME.");
+    gameOver=true;
   }
 }
 
-function draw() {
-  var cells = document.getElementsByClassName("cell");
-  for (var i = 0; i < 9; i++) {
-    cells[i].textContent = board[i];
-  }
+function draw(){
+  var c=document.getElementsByClassName("cell");
+  for(var i=0;i<9;i++) c[i].innerHTML=board[i];
 }
 
-function checkWin(p) {
-  var w = [
-    [0,1,2],[3,4,5],[6,7,8],
-    [0,3,6],[1,4,7],[2,5,8],
-    [0,4,8],[2,4,6]
-  ];
-  for (var i = 0; i < w.length; i++) {
-    if (board[w[i][0]] === p &&
-        board[w[i][1]] === p &&
-        board[w[i][2]] === p)
+function checkWin(p){
+  var w=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  for(var i=0;i<w.length;i++)
+    if(board[w[i][0]]===p&&board[w[i][1]]===p&&board[w[i][2]]===p)
       return true;
-  }
   return false;
 }
 
-function isDraw() {
-  for (var i = 0; i < 9; i++) {
-    if (board[i] === "") return false;
-  }
+function isDraw(){
+  for(var i=0;i<9;i++) if(board[i]==="") return false;
   return true;
 }
 
-function resetGame() {
-  board = ["","","","","","","","",""];
-  gameOver = false;
-  document.getElementById("msg").textContent = "";
+function resetGame(){
+  board=["","","","","","","","",""];
+  gameOver=false;
+  msg("");
   draw();
 }
 
+function msg(t){document.getElementById("msg").innerHTML=t;}
 draw();
 </script>
+
+</body>
+</html>
