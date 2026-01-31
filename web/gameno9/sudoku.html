@@ -21,11 +21,9 @@
 
 <p id="msg" style="margin:4px 0;"></p>
 
-<button onclick="resetGame()">RESET</button>
+<button class="ui" onclick="resetGame()">RESET</button>
+<button class="ui" onclick="window.location.href='index.html'">◀ Exit</button>
 
-<p style="font-size:10px;margin-top:6px;">
-<button onclick="window.location.href='index.html'">◀ Exit</button>
-</p>
 
 <script>
 // SOLUTION
@@ -132,6 +130,26 @@ button {
 .cell {
   background:#000;
 }
+
+.ui {
+  width:60px;
+  height:20px;
+  line-height:20px;
+
+  font-size:11px;
+  font-family:Courier, monospace;
+  font-weight:bold;
+
+  padding:0;
+  margin:2px;
+
+  border:1px solid #0f0;
+  background:#000;
+  color:#0f0;
+
+  text-align:center;
+}
+
 </style>
 
 </body>
