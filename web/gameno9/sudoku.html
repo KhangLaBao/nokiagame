@@ -2,7 +2,6 @@
 <html>
 <head>
   <title>State Sudoku</title>
-  <link rel="icon" type="image/png" href="favicon.png">
 </head>
 
 <body style="
@@ -11,53 +10,49 @@
   font-family:Courier, monospace;
   font-size:12px;
   text-align:center;
-  margin:4px;
+  margin:6px;
 ">
 
 <h3 style="margin:2px 0;">STATE SUDOKU</h3>
-<p style="margin:2px 0;">FILL FOR THE MOTHERLAND</p>
-<p style="font-size:10px;">
-Tap a cell to change number (1–4)
-</p>
+<p style="margin:2px 0;">FILL WITHOUT ERRORS</p>
+<p style="font-size:10px;">Tap cell to change number (1–4)</p>
 
-
-<table id="board" cellspacing="2" cellpadding="0" align="center"></table>
+<table id="board" align="center" cellspacing="2"></table>
 
 <p id="msg" style="margin:4px 0;"></p>
 
 <button onclick="resetGame()">RESET</button>
 
 <p style="font-size:10px;margin-top:6px;">
-  <button onclick="window.location.href='../../index.html'">◀ Exit</button>
+<button onclick="window.location.href='index.html'">◀ Exit</button>
 </p>
 
 <script>
-/* 4x4 STATE SUDOKU */
-
-var puzzle = [
-  1,0,0,4,
-  0,0,3,0,
-  0,3,0,0,
-  2,0,0,1
-];
-
+// SOLUTION
 var solution = [
   1,2,3,4,
-  4,1,3,2,
   3,4,1,2,
-  2,3,4,1
+  2,1,4,3,
+  4,3,2,1
+];
+
+// PUZZLE (0 = empty)
+var puzzle = [
+  1,0,0,4,
+  0,4,0,0,
+  0,0,4,0,
+  4,0,0,1
 ];
 
 var board = [];
 var fixed = [];
 
 function init() {
-  board = [];
+  board = puzzle.slice();
   fixed = [];
   document.getElementById("msg").textContent = "";
 
   for (var i = 0; i < 16; i++) {
-    board[i] = puzzle[i];
     fixed[i] = puzzle[i] !== 0;
   }
   draw();
@@ -65,26 +60,18 @@ function init() {
 
 function draw() {
   var html = "";
-  var i = 0;
-
   for (var y = 0; y < 4; y++) {
     html += "<tr>";
     for (var x = 0; x < 4; x++) {
-
+      var i = y * 4 + x;
       var val = board[i] === 0 ? "" : board[i];
-      var cls = fixed[i] ? "cell fixed" : "cell";
-
-      html += "<td>";
-      html += "<button class='" + cls + "' onclick='tap(" + i + ")'>";
-      html += val;
-      html += "</button>";
-      html += "</td>";
-
-      i++;
+      var cls = fixed[i] ? "fixed" : "cell";
+      html += "<td><button class='" + cls +
+        "' onclick='tap(" + i + ")'>" +
+        val + "</button></td>";
     }
     html += "</tr>";
   }
-
   document.getElementById("board").innerHTML = html;
 }
 
@@ -94,16 +81,26 @@ function tap(i) {
   board[i]++;
   if (board[i] > 4) board[i] = 0;
 
+  if (board[i] !== 0 && board[i] !== solution[i]) {
+    document.getElementById("msg").textContent =
+      "ERROR. STATE DISAPPROVES.";
+  } else {
+    document.getElementById("msg").textContent = "";
+  }
+
+  if (checkWin()) {
+    document.getElementById("msg").textContent =
+      "PUZZLE COMPLETE. GLORY TO THE STATE.";
+  }
+
   draw();
-  checkWin();
 }
 
 function checkWin() {
   for (var i = 0; i < 16; i++) {
-    if (board[i] !== solution[i]) return;
+    if (board[i] !== solution[i]) return false;
   }
-  document.getElementById("msg").textContent =
-    "PUZZLE COMPLETE. GLORY TO THE STATE.";
+  return true;
 }
 
 function resetGame() {
@@ -114,26 +111,26 @@ init();
 </script>
 
 <style>
-.cell {
+button {
   width:22px;
   height:22px;
   line-height:22px;
   font-size:12px;
-
+  font-family:Courier, monospace;
+  font-weight:bold;
   padding:0;
   margin:0;
-
   border:1px solid #0f0;
   background:#000;
   color:#0f0;
-
-  text-align:center;
-  font-weight:bold;
 }
 
 .fixed {
   background:#030;
-  color:#7f7;
+}
+
+.cell {
+  background:#000;
 }
 </style>
 
