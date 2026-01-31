@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Document Stamper</title>
+  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon.png">
+</head>
+
+<body style="
+  background:#111;
+  color:#0f0;
+  font-family:Courier, monospace;
+  font-size:12px;
+  text-align:center;
+  margin:6px;
+">
+
+<h3 style="margin:2px 0;">DOCUMENT STAMPER</h3>
+<p style="margin:2px 0;">MINISTRY OF APPROVAL</p>
+
+<div id="game"></div>
+
+<p id="msg" style="margin:4px 0;"></p>
+
+<p style="font-size:10px;margin-top:6px;">
+  <button onclick="resetGame()">RESET</button><br><br>
+  <button onclick="window.location.href='../../index.html'">◀ Exit</button>
+</p>
+
+<script>
+var documents = [
+  { text:"Request extra bread ration", correct:"APPROVE" },
+  { text:"Complaint about queue length", correct:"REJECT" },
+  { text:"Praise of local factory", correct:"APPROVE" },
+  { text:"Unauthorized meeting notice", correct:"REVIEW" },
+  { text:"Party loyalty declaration", correct:"APPROVE" },
+  { text:"Report missing worker", correct:"REVIEW" },
+  { text:"Question about statistics accuracy", correct:"REJECT" },
+  { text:"Request travel permit", correct:"REVIEW" },
+  { text:"Criticism of five-year plan", correct:"REJECT" },
+  { text:"Volunteer for extra shift", correct:"APPROVE" },
+  { text:"Foreign radio possession report", correct:"REVIEW" },
+  { text:"Statistics exceed reality", correct:"REJECT" },
+  { text:"Request extra bread ration", correct:"APPROVE" },
+  { text:"Complaint about queue length", correct:"REJECT" },
+  { text:"Praise of local factory", correct:"APPROVE" },
+  { text:"Unauthorized meeting notice", correct:"REVIEW" },
+  { text:"Party loyalty declaration", correct:"APPROVE" },
+  { text:"Report missing worker", correct:"REVIEW" },
+  { text:"Question about statistics accuracy", correct:"REJECT" },
+  { text:"Request travel permit", correct:"REVIEW" },
+  { text:"Criticism of five-year plan", correct:"REJECT" },
+  { text:"Volunteer for extra shift", correct:"APPROVE" },
+  { text:"Foreign radio possession report", correct:"REVIEW" },
+  { text:"Statistics exceed reality", correct:"REJECT" }
+];
+
+var index = 0;
+var loyalty = 3;
+var gameOver = false;
+
+function draw() {
+  if (gameOver) return;
+
+  var d = documents[index];
+
+  document.getElementById("game").innerHTML =
+    "<p><b>DOCUMENT " + (index+1) + "</b></p>" +
+    "<p style='margin:4px 0;'>\"" + d.text + "\"</p>" +
+    "<button onclick=\"stamp('APPROVE')\">APPROVE</button><br><br>" +
+    "<button onclick=\"stamp('REJECT')\">REJECT</button><br><br>" +
+    "<button onclick=\"stamp('REVIEW')\">SEND TO REVIEW</button><br><br>" +
+    "<p>Loyalty Score: " + loyalty + "</p>";
+}
+
+function stamp(choice) {
+  if (gameOver) return;
+
+  var d = documents[index];
+
+  if (choice === d.correct) {
+    document.getElementById("msg").textContent =
+      "STAMP ACCEPTED.";
+    loyalty++;
+  } else {
+    document.getElementById("msg").textContent =
+      "STAMP QUESTIONED.";
+    loyalty--;
+  }
+
+  index++;
+
+  if (loyalty <= 0) {
+    endGame("LOYALTY FAILURE. TRANSFERRED.");
+    return;
+  }
+
+  if (index >= documents.length) {
+    endGame("SHIFT COMPLETE. PROMOTION PENDING.");
+    return;
+  }
+
+  draw();
+}
+
+function endGame(text) {
+  gameOver = true;
+  document.getElementById("game").innerHTML = "";
+  document.getElementById("msg").innerHTML =
+    "<b>" + text + "</b><br>FINAL LOYALTY: " + loyalty;
+}
+
+function resetGame() {
+  index = 0;
+  loyalty = 3;
+  gameOver = false;
+  document.getElementById("msg").textContent = "";
+  draw();
+}
+
+draw();
+</script>
+
+</body>
+</html>
