@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>State Sudoku</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+</head>
+
+<body style="
+  background:#111;
+  color:#0f0;
+  font-family:Courier, monospace;
+  font-size:12px;
+  text-align:center;
+  margin:4px;
+">
+
+<h3 style="margin:2px 0;">STATE SUDOKU</h3>
+<p style="margin:2px 0;">FILL FOR THE MOTHERLAND</p>
+
+<table id="board" cellspacing="2" cellpadding="0" align="center"></table>
+
+<p id="msg" style="margin:4px 0;"></p>
+
+<button onclick="resetGame()">RESET</button>
+
+<p style="font-size:10px;margin-top:6px;">
+  <button onclick="window.location.href='../../index.html'">◀ Exit</button>
+</p>
+
+<script>
+/* 4x4 STATE SUDOKU */
+
+var puzzle = [
+  1,0,0,4,
+  0,0,3,0,
+  0,3,0,0,
+  2,0,0,1
+];
+
+var solution = [
+  1,2,3,4,
+  4,1,3,2,
+  3,4,1,2,
+  2,3,4,1
+];
+
+var board = [];
+var fixed = [];
+
+function init() {
+  board = [];
+  fixed = [];
+  document.getElementById("msg").textContent = "";
+
+  for (var i = 0; i < 16; i++) {
+    board[i] = puzzle[i];
+    fixed[i] = puzzle[i] !== 0;
+  }
+  draw();
+}
+
+function draw() {
+  var html = "";
+  var i = 0;
+
+  for (var y = 0; y < 4; y++) {
+    html += "<tr>";
+    for (var x = 0; x < 4; x++) {
+
+      var val = board[i] === 0 ? "" : board[i];
+      var cls = fixed[i] ? "cell fixed" : "cell";
+
+      html += "<td>";
+      html += "<button class='" + cls + "' onclick='tap(" + i + ")'>";
+      html += val;
+      html += "</button>";
+      html += "</td>";
+
+      i++;
+    }
+    html += "</tr>";
+  }
+
+  document.getElementById("board").innerHTML = html;
+}
+
+function tap(i) {
+  if (fixed[i]) return;
+
+  board[i]++;
+  if (board[i] > 4) board[i] = 0;
+
+  draw();
+  checkWin();
+}
+
+function checkWin() {
+  for (var i = 0; i < 16; i++) {
+    if (board[i] !== solution[i]) return;
+  }
+  document.getElementById("msg").textContent =
+    "PUZZLE COMPLETE. GLORY TO THE STATE.";
+}
+
+function resetGame() {
+  init();
+}
+
+init();
+</script>
+
+<style>
+.cell {
+  width:22px;
+  height:22px;
+  line-height:22px;
+  font-size:12px;
+
+  padding:0;
+  margin:0;
+
+  border:1px solid #0f0;
+  background:#000;
+  color:#0f0;
+
+  text-align:center;
+  font-weight:bold;
+}
+
+.fixed {
+  background:#030;
+  color:#7f7;
+}
+</style>
+
+</body>
+</html>
