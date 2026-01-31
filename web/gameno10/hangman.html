@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>State Hangman</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+</head>
+
+<body style="
+  background:#111;
+  color:#0f0;
+  font-family:Courier, monospace;
+  font-size:12px;
+  text-align:center;
+  margin:6px;
+">
+
+<h3 style="margin:2px 0;">STATE HANGMAN</h3>
+<p style="margin:2px 0;">GUESS OR BE EXECUTED</p>
+<p id="wordCount"></p>
+
+<p id="word" style="letter-spacing:3px;font-size:14px;"></p>
+
+<p>ATTEMPTS LEFT: <span id="tries"></span></p>
+
+<input id="letter" maxlength="1" style="width:20px;text-align:center;">
+<button onclick="guess()">GUESS</button>
+
+<br><br>
+<button onclick="hint()">REQUEST HINT (-1)</button>
+
+<p id="msg" style="margin-top:6px;"></p>
+
+<button onclick="resetGame()">RESET</button>
+
+<p style="font-size:10px;margin-top:6px;">
+  <button onclick="window.location.href='index.html'">◀ Exit</button>
+</p>
+
+<script>
+var words = [
+  "STATE",
+  "GULAG",
+  "BUNKER",
+  "RATIONS",
+  "HAMMER",
+  "WORKER",
+  "RADIO",
+  "BREAD",
+  "HAMSTER",
+  "COMRADE",
+  "COLLECTIVE",
+  "PROPAGANDA",
+  "REVOLUTION",
+  "SOVIET",
+  "MOTHERLAND",
+  "LENIN",
+  "STALIN",
+  "COMMUNISM",
+  "EQUALITY",
+  "FREEDOM",
+  "VIETNAM",
+  "CUBA",
+  "IRONCURTAIN",
+  "FIVEYEARPLAN",
+  "INDUSTRIALIZATION",
+  "SOVIETIZATION",
+  "VODKA",
+  "PARTY",
+  "REDARMY",
+  "OCTOBER",    
+  "HAMMERNANDSICKLE",    
+  "BANANA",  // easter egg
+  "BANHMI", //fun with vietnam,glorious vietnam food
+  "PHO",
+  "PINEAPPLE",
+  "SAIGON",
+  "COMMUNIST",
+  "MARX",
+  "ENGELS",
+  "DISTRIBUTION",
+  "COLLABORATION",
+  "PLANNING", 
+  "ECONOMY",
+  "VLADIMIR",
+  "CHE",
+  "REVOLUTE",
+  "KARL",
+  "CCCP",
+  "LENINGRAD",
+  "STALINGRAD",
+  "VLADIVOSTOK",
+  "SIBERIA",
+  "UVB76",
+  "THEBUNKER",
+  "REDSQUARE",
+  "MAO",
+  "CULTURE",
+  "AGRICULTURE",
+  "INDUSTRY",
+  "MILITARY",   
+  "KGB",    
+  "SPUTNIK",    
+  "NKVD",
+  "SPETSNAZ",
+  "PERM",   
+  "KALASHNIKOV",
+  "TANKTHIRDFOUR",
+  "T34",    
+  "AVTOMATKALASHNIKOVA",
+  "MIG",
+  "REDSTAR",
+  "BORSCHT",
+  "REDBANNER",
+  "OCTOBERREVOLUTION",
+  "SOVIETUNION",
+  "WORKERSOFWORLDUNITE",
+  "REDARMYCHOIR",
+  "REDARMY",
+  "LADA",
+  "MOSCOW",
+  "VOLGA",
+  "CHEKA",
+  "PAVLOV",
+  "TROTSKY",
+  "TSAR",
+  "BOLSHEVIK",
+  "WINDOWSXP",
+  "MSDOS",
+  "COMMANDER",
+  "FIVEYEARPLAN",
+   "BUREAUCRACY",
+  "DIRECTIVE",
+  "MINISTRY",
+  "COMMITTEE",
+  "APPARATCHIK",
+  "SECRETARIAT",
+  "CENTRALIZATION",
+  "ADMINISTRATION",
+  "SURVEILLANCE",
+  "REGULATION",
+  "DECREE",
+
+  "ARTILLERY",
+  "BARRACKS",
+  "CONSCRIPTION",
+  "FRONTLINE",
+  "MISSILE",
+  "WARSAWPACT",
+  "DEFENSE",
+  "ARMAMENT",
+  "PARADE",
+  "SOLDIER",
+
+  "FACTORY",
+  "STEEL",
+  "COAL",
+  "TRACTOR",
+  "ASSEMBLY",
+  "PRODUCTION",
+  "MANUFACTURE",
+  "INFRASTRUCTURE",
+  "POWERPLANT",
+  "ELECTRIFICATION",
+
+  "POSTER",
+  "SLOGAN",
+  "BROADCAST",
+  "CENSORSHIP",
+  "AGITPROP",
+  "DOCTRINE",
+  "MANIFESTO",
+  "ORTHODOXY",
+  "HEROISM",
+  "LOYALTY",
+
+  "KREMLIN",
+  "MOSCOW",
+  "URAL",
+  "VOLGA",
+  "TAIGA",
+  "BALTIC",
+  "PRAVDA",
+  "MAYDAY",
+
+  "RATIONCARD",
+  "QUEUE",
+  "SHORTAGE",
+  "WHISTLEBLOWER",
+  "TYPEWRITER",
+  "CONCRETE",
+  "SMOKESTACK",
+  "BREADLINE",
+
+];// words sourced from various soviet related terms and places
+
+document.getElementById("wordCount").textContent =
+  "TOTAL WORDS IN STATE DICTIONARY: " + words.length;
+
+var word = "";
+var shown = [];
+var tries = 6;
+var gameOver = false;
+
+function resetGame() {
+  word = words[Math.floor(Math.random() * words.length)];
+  shown = [];
+  tries = 6;
+  gameOver = false;
+  document.getElementById("msg").textContent = "";
+
+  for (var i = 0; i < word.length; i++) {
+    shown[i] = "_";
+  }
+
+  draw();
+}
+
+function draw() {
+  document.getElementById("word").textContent = shown.join(" ");
+  document.getElementById("tries").textContent = tries;
+}
+
+function guess() {
+  if (gameOver) return;
+
+  var input = document.getElementById("letter");
+  var l = input.value.toUpperCase();
+  input.value = "";
+
+  if (l === "") return;
+
+  var found = false;
+
+  for (var i = 0; i < word.length; i++) {
+    if (word.charAt(i) === l && shown[i] === "_") {
+      shown[i] = l;
+      found = true;
+    }
+  }
+
+  if (!found) {
+    tries--;
+  }
+
+  checkState();
+  draw();
+}
+
+function hint() {
+  if (gameOver || tries <= 0) return;
+
+  var hidden = [];
+  for (var i = 0; i < word.length; i++) {
+    if (shown[i] === "_") hidden.push(i);
+  }
+
+  if (hidden.length === 0) return;
+
+  var pick = hidden[Math.floor(Math.random() * hidden.length)];
+  shown[pick] = word.charAt(pick);
+  tries--;
+
+  document.getElementById("msg").textContent =
+    "HINT ISSUED. RATIONS REDUCED.";
+
+  checkState();
+  draw();
+}
+
+function checkState() {
+  if (shown.join("") === word) {
+    document.getElementById("msg").textContent =
+      "YOU SURVIVED THE STATE.";
+    gameOver = true;
+  } else if (tries <= 0) {
+    document.getElementById("msg").textContent =
+      "NO MORE MERCY. EXECUTED.";
+    gameOver = true;
+  }
+}
+
+resetGame();
+</script>
+
+</body>
+</html>
