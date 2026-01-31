@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Queue Simulator</title>
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
+</head>
+
+<body style="
+  background:#111;
+  color:#0f0;
+  font-family:Courier, monospace;
+  font-size:12px;
+  text-align:center;
+  margin:6px;
+">
+
+<h3 style="margin:2px 0;">QUEUE SIMULATOR</h3>
+<p style="margin:2px 0;">BREAD DISTRIBUTION CENTER</p>
+
+<p id="status"></p>
+<p id="people"></p>
+
+<div id="actions"></div>
+
+<p id="msg" style="margin-top:6px;"></p>
+
+<p style="font-size:10px;margin-top:6px;">
+  <button onclick="resetGame()">RESTART</button>
+  <button onclick="window.location.href='../../index.html'">◀ EXIT</button>
+</p>
+
+<script>
+var peopleAhead;
+var breadLeft;
+var gameOver;
+
+function resetGame() {
+  peopleAhead = Math.floor(Math.random() * 25) + 10; // 10–35
+  breadLeft = Math.floor(Math.random() * 15) + 5;   // 5–20
+  gameOver = false;
+  document.getElementById("msg").textContent = "";
+  update();
+}
+
+function update() {
+  document.getElementById("status").textContent =
+    "BREAD LEFT: " + breadLeft;
+
+  document.getElementById("people").textContent =
+    "PEOPLE AHEAD OF YOU: " + peopleAhead;
+
+  if (gameOver) {
+    document.getElementById("actions").innerHTML = "";
+    return;
+  }
+
+  document.getElementById("actions").innerHTML =
+    "<button onclick='waitTurn()'>WAIT</button> " +
+    "<button onclick='complain()'>COMPLAIN</button> " +
+    "<button onclick='leaveLine()'>LEAVE</button>";
+}
+
+function waitTurn() {
+  if (gameOver) return;
+
+  var advance = Math.floor(Math.random() * 3); // 0–2
+  peopleAhead -= advance;
+
+  if (Math.random() < 0.4 && breadLeft > 0) {
+    breadLeft--;
+  }
+
+  if (peopleAhead <= 0) {
+    if (breadLeft > 0) {
+      document.getElementById("msg").textContent =
+        "YOU RECEIVE BREAD. VICTORY.";
+    } else {
+      document.getElementById("msg").textContent =
+        "BREAD RAN OUT. RETURN TOMORROW.";
+    }
+    gameOver = true;
+  }
+
+  if (breadLeft <= 0 && peopleAhead > 0) {
+    document.getElementById("msg").textContent =
+      "BREAD RAN OUT. LINE DISPERSES.";
+    gameOver = true;
+  }
+
+  update();
+}
+
+function complain() {
+  if (gameOver) return;
+
+  var r = Math.random();
+
+  if (r < 0.3) {
+    document.getElementById("msg").textContent =
+      "YOU ARE QUESTIONED BY OFFICER.";
+    gameOver = true;
+  } else if (r < 0.6) {
+    peopleAhead += 3;
+    document.getElementById("msg").textContent =
+      "COMPLAINT NOTED. YOU MOVE BACK.";
+  } else {
+    document.getElementById("msg").textContent =
+      "NO ONE LISTENS.";
+  }
+
+  update();
+}
+
+function leaveLine() {
+  document.getElementById("msg").textContent =
+    "YOU LEAVE. FAMILY GOES HUNGRY.";
+  gameOver = true;
+  update();
+}
+
+resetGame();
+</script>
+
+</body>
+</html>
