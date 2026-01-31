@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hamster Escape Simulator</title>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="favicon.png">
+</head>
+
+<body style="
+  background:#111;
+  color:#0f0;
+  font-family:Courier, monospace;
+  font-size:12px;
+  text-align:center;
+  margin:6px;
+">
+
+<h3 style="margin:2px 0;">HAMSTER ESCAPE SIMULATOR</h3>
+<p style="margin:2px 0;">
+YOU ARE <b>CỤC MỠ</b><br>
+WRONGLY IMPRISONED.<br>
+ESCAPE.
+</p>
+
+<div id="status" style="margin:6px 0;"></div>
+<div id="log" style="margin:6px 0; min-height:60px;"></div>
+
+<button onclick="act('chew')">🦷 CHEW PLASTIC</button><br>
+<button onclick="act('dig')">🕳️ DIG BEDDING</button><br>
+<button onclick="act('climb')">🛞 CLIMB WHEEL</button><br>
+<button onclick="act('wait')">💤 WAIT & LISTEN</button>
+
+<p id="msg" style="margin:6px 0;"></p>
+
+<button onclick="resetGame()">RESET</button>
+
+<p style="font-size:10px;margin-top:6px;">
+<button onclick="window.location.href='index.html'">◀ Exit</button>
+</p>
+
+<script>
+var escape = 0;
+var noise = 0;
+var fatigue = 0;
+var suspicion = 0;
+var gameOver = false;
+
+function bar(val, max) {
+  var filled = Math.floor((val / max) * 6);
+  if (filled < 0) filled = 0;
+  if (filled > 6) filled = 6;
+  return "######".substr(0, filled) + "░░░░░░".substr(0, 6 - filled);
+}
+
+function updateStatus() {
+  document.getElementById("status").innerHTML =
+    "ESCAPE: " + bar(escape, 100) + "<br>" +
+    "NOISE:  " + bar(noise, 100) + "<br>" +
+    "FATIGUE:" + bar(fatigue, 100) + "<br>" +
+    "SUSPECT:" + bar(suspicion, 100);
+}
+
+function log(text) {
+  document.getElementById("log").innerHTML = text;
+}
+
+function end(text) {
+  gameOver = true;
+  document.getElementById("msg").innerHTML = "<b>" + text + "</b>";
+}
+
+function act(action) {
+  if (gameOver) return;
+
+  var r = Math.floor(Math.random() * 10);
+
+  if (action === "chew") {
+    escape += 8 + r;
+    noise += 10;
+    fatigue += 8;
+    log("You chew plastic. Tastes forbidden.");
+  }
+
+  if (action === "dig") {
+    escape += 6;
+    noise += 6;
+    fatigue += 6;
+    log("You dig bedding. Tunnel dreams.");
+  }
+
+  if (action === "climb") {
+    escape += 4;
+    noise += 12;
+    fatigue += 10;
+    log("Wheel spins. Freedom spins faster.");
+  }
+
+  if (action === "wait") {
+    fatigue -= 10;
+    noise -= 5;
+    log("You freeze. Listening...");
+  }
+
+  // clamp
+  if (fatigue < 0) fatigue = 0;
+  if (noise < 0) noise = 0;
+
+  // random events
+  if (noise > 60 && Math.random() < 0.3) {
+    suspicion += 20;
+    log("You hear footsteps...");
+  }
+
+  if (fatigue > 80) {
+    log("You collapse into sleep.");
+    fatigue = 40;
+  }
+
+  // endings
+  if (escape >= 100) {
+    end("THE GREAT ESCAPE.<br>LEGEND OF CỤC MỠ SPREADS.");
+  }
+
+  if (suspicion >= 100) {
+    end("FOUND BY AUNT.<br>RETURNED TO GULAG.");
+  }
+
+  updateStatus();
+}
+
+function resetGame() {
+  escape = 0;
+  noise = 0;
+  fatigue = 0;
+  suspicion = 0;
+  gameOver = false;
+  document.getElementById("msg").innerHTML = "";
+  log("The night is quiet. The lid waits.");
+  updateStatus();
+}
+
+resetGame();
+</script>
+
+</body>
+</html>
