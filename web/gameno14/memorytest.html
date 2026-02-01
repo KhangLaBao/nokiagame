@@ -1,104 +1,105 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <title>KGB Memory Test</title>
-  <link rel="icon" type="image/png" href="../../favicon.png">
-</head>
+  <head>
+    <title>KGB Memory Test</title>
+    <link rel="icon" type="image/png" href="../../favicon.png" />
+  </head>
 
-<body style="
-  background:#111;
-  color:#0f0;
-  font-family:Courier, monospace;
-  font-size:12px;
-  text-align:center;
-  margin:6px;
-">
+  <body
+    style="
+      background: #111;
+      color: #0f0;
+      font-family: Courier, monospace;
+      font-size: 12px;
+      text-align: center;
+      margin: 6px;
+    "
+  >
+    <h3 style="margin: 2px 0">KGB MEMORY TEST</h3>
+    <p style="margin: 2px 0">MEMORIZE. REPEAT. OBEY.</p>
+    <p id="display" style="margin: 6px 0; font-weight: bold"></p>
+    <!-- DIFFICULTY SELECT -->
+    <p style="margin: 4px 0">
+      DIFFICULTY:
+      <br />
+      <label><input type="radio" name="diff" value="800" /> CADET</label>
+      <label><input type="radio" name="diff" value="500" /> OFFICER</label>
+      <label
+        ><input type="radio" name="diff" value="400" checked /> AGENT</label
+      >
+      <label><input type="radio" name="diff" value="300" /> DIRECTOR</label>
+    </p>
 
-<h3 style="margin:2px 0;">KGB MEMORY TEST</h3>
-<p style="margin:2px 0;">MEMORIZE. REPEAT. OBEY.</p>
-<p id="display" style="margin:6px 0;font-weight:bold;"></p>
-<!-- DIFFICULTY SELECT -->
-<p style="margin:4px 0;">
-  DIFFICULTY:
-  <br>
-  <label><input type="radio" name="diff" value="800"> CADET</label>
-  <label><input type="radio" name="diff" value="500"> OFFICER</label>
-  <label><input type="radio" name="diff" value="400" checked> AGENT</label>
-  <label><input type="radio" name="diff" value="300"> DIRECTOR</label>
-</p>
+    <input
+      id="answer"
+      type="text"
+      style="width: 120px; font-family: Courier, monospace; font-size: 12px"
+      placeholder="TYPE CODE"
+    />
 
+    <br /><br />
 
+    <button onclick="check()">SUBMIT</button>
+    <button onclick="start()">NEW CODE</button>
 
-<input id="answer" type="text"
-  style="width:120px;font-family:Courier, monospace;font-size:12px;"
-  placeholder="TYPE CODE">
+    <p id="msg" style="margin: 6px 0"></p>
 
-<br><br>
+    <p style="font-size: 10px; margin-top: 6px">
+      <button onclick="window.location.href = '../../index.html'">
+        ◀ Exit
+      </button>
+    </p>
 
-<button onclick="check()">SUBMIT</button>
-<button onclick="start()">NEW CODE</button>
+    <script>
+      var code = "";
+      var showing = true;
+      var time = 800;
 
-<p id="msg" style="margin:6px 0;"></p>
+      var code = "";
+      var showing = false;
+      var hideTime = 400; // default difficulty
 
-<p style="font-size:10px;margin-top:6px;">
-  <button onclick="window.location.href='../../index.html'">◀ Exit</button>
-</p>
+      function start() {
+        var nums = [];
+        for (var i = 0; i < 4; i++) {
+          nums.push(Math.floor(Math.random() * 10));
+        }
+        code = nums.join("");
 
-<script>
-var code = "";
-var showing = true;
-var time = 800;
+        showing = true;
 
-function start() {
-  getTime();
+        document.getElementById("display").innerHTML =
+          "MEMORIZE: <b>" + code + "</b>";
 
-  var nums = [];
-  for (var i = 0; i < 4; i++) {
-    nums.push(Math.floor(Math.random() * 10));
-  }
-  code = nums.join("");
-  showing = true;
+        document.getElementById("msg").innerHTML = "";
+        document.getElementById("answer").value = "";
 
-  document.getElementById("display").textContent =
-    "MEMORIZE: " + code;
-  document.getElementById("msg").textContent = "";
-  document.getElementById("answer").value = "";
+        /* FORCE RENDER FIRST */
+        setTimeout(function () {
+          setTimeout(hide, hideTime);
+        }, 50);
+      }
 
-  setTimeout(hide, time);
-}
+      function hide() {
+        document.getElementById("display").innerHTML = "CODE HIDDEN";
+        showing = false;
+      }
 
-function getTime() {
-  var radios = document.getElementsByName("diff");
-  for (var i = 0; i < radios.length; i++) {
-    if (radios[i].checked) {
-      time = parseInt(radios[i].value);
-    }
-  }
-}
+      function check() {
+        if (showing) return;
 
+        var input = document.getElementById("answer").value;
 
-function hide() {
-  document.getElementById("display").textContent =
-    "CODE HIDDEN";
-  showing = false;
-}
+        if (input === code) {
+          document.getElementById("msg").innerHTML =
+            "ACCESS GRANTED. PARTY SATISFIED.";
+        } else {
+          document.getElementById("msg").innerHTML =
+            "INCORRECT. INTERROGATION FAILED.";
+        }
+      }
 
-function check() {
-  if (showing) return;
-
-  var input = document.getElementById("answer").value;
-
-  if (input === code) {
-    document.getElementById("msg").textContent =
-      "ACCESS GRANTED. PARTY SATISFIED.";
-  } else {
-    document.getElementById("msg").textContent =
-      "INCORRECT. INTERROGATION FAILED.";
-  }
-}
-
-start();
-</script>
-
-</body>
+      start();
+    </script>
+  </body>
 </html>
