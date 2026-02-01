@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>KGB Memory Test</title>
+</head>
+
+<body style="
+  background:#111;
+  color:#0f0;
+  font-family:Courier, monospace;
+  font-size:12px;
+  text-align:center;
+  margin:6px;
+">
+
+<h3>KGB MEMORY TEST</h3>
+<p>MEMORIZE. REPEAT. OBEY.</p>
+
+
+
+<p id="display" style="font-weight:bold;margin:6px;"></p>
+
+<button onclick="hide()">HIDE CODE</button>
+<br><br>
+
+<input id="answer" type="text"
+  style="width:120px;font-family:Courier, monospace;font-size:12px;"
+  placeholder="TYPE CODE">
+
+<br><br>
+
+<button id="submitBtn" onclick="check()" disabled>SUBMIT</button>
+<button onclick="start()">NEW CODE</button> <br>
+<button onclick="window.location.href='../../index.html'">◀ Exit</button>
+<p id="msg" style="margin-top:6px;"></p>
+
+<script>
+var code = "";
+var showing = false;
+
+function start() {
+  var nums = [];
+  for (var i = 0; i < 4; i++) {
+    nums.push(Math.floor(Math.random() * 10));
+  }
+  code = nums.join("");
+  showing = true;
+
+  document.getElementById("display").innerHTML =
+    "MEMORIZE: <b>" + code + "</b>";
+
+  document.getElementById("msg").innerHTML = "";
+  document.getElementById("answer").value = "";
+  document.getElementById("submitBtn").disabled = true;
+}
+
+function hide() {
+  if (!showing) return;
+
+  document.getElementById("display").innerHTML = "CODE HIDDEN";
+  showing = false;
+
+  // NOW typing + submit is allowed
+  document.getElementById("submitBtn").disabled = false;
+  document.getElementById("answer").focus();
+}
+
+function check() {
+  var input = document.getElementById("answer").value;
+
+  if (input === code) {
+    document.getElementById("msg").innerHTML =
+      "ACCESS GRANTED. PARTY SATISFIED.";
+  } else {
+    document.getElementById("msg").innerHTML =
+      "INCORRECT. INTERROGATION FAILED.";
+  }
+}
+
+start();
+</script>
+
+</body>
+</html>
