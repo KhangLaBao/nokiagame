@@ -1,0 +1,209 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Propaganda Mixer</title>
+  </head>
+
+  <body
+    style="
+      background: #111;
+      color: #0f0;
+      font-family: Courier, monospace;
+      font-size: 12px;
+      text-align: center;
+      margin: 6px;
+    "
+  >
+    <h3>PROPAGANDA MIXER</h3>
+    <p>REORDER THE WORD. UNDERSTAND ITS PURPOSE.</p>
+
+    <p id="scrambled" style="font-weight: bold"></p>
+
+    <input
+      id="answer"
+      type="text"
+      style="
+        background: #fff;
+        color: #000;
+        border: 1px solid #000;
+        font-family: Courier, monospace;
+        font-size: 12px;
+        padding: 2px;
+      "
+      placeholder="TYPE WORD"
+    />
+
+    <br /><br />
+
+    <button onclick="check()">SUBMIT</button>
+    <button onclick="newWord()">NEW WORD</button>
+    <button onclick="hint()">HINT</button>
+
+    <p id="msg"></p>
+
+    <p style="font-size: 10px; margin-top: 8px">
+      <button onclick="window.location.href = '../../index.html'">
+        ◀ Exit
+      </button>
+    </p>
+
+    <script>
+      // WORDS
+      var words = [
+        "WORKER",
+        "FACTORY",
+        "QUEUE",
+        "TRACTOR",
+        "RATIONS",
+        "MINISTRY",
+        "PROPAGANDA",
+        "COLLECTIVE",
+        "REVOLUTION",
+
+        "COMRADE",
+        "PARTY",
+        "STATE",
+        "BUREAUCRACY",
+        "DOCUMENT",
+        "PERMIT",
+        "HOUSING",
+        "BREAD",
+        "MEETING",
+        "UNION",
+        "PLAN",
+
+        "FIVEYEAR",
+        "DISCIPLINE",
+        "LOYALTY",
+        "SACRIFICE",
+        "SHORTAGE",
+        "SURVEILLANCE",
+        "CENSORSHIP",
+        "BORDER",
+        "CHECKPOINT",
+        "PASSPORT",
+
+        "RADIO",
+        "SIGNAL",
+        "CODE",
+        "NUMBER",
+        "STATION",
+        "ARCHIVE",
+        "DOSSIER",
+        "REPORT",
+        "INTERROGATION",
+        "CONFESSION",
+
+        "FACT",
+        "TRUTH",
+        "LINE",
+        "ORDER",
+        "SILENCE",
+        "OBEDIENCE",
+        "HISTORY",
+        "FUTURE",
+        "VICTORY",
+      ];
+
+      // MEANING HINTS (same order)
+      var hints = [
+        "Produces labor. Requires discipline.",
+        "Where workers report at dawn.",
+        "Where patience is tested daily.",
+        "Moves fields and ideology forward.",
+        "Distributed when supplies allow.",
+        "Decides without explanation.",
+        "Repeats until believed.",
+        "Individual replaced by group.",
+        "Promised change. Delayed delivery.",
+
+        "Not friend. Not optional.",
+        "Always correct. Even when wrong.",
+        "Exists above the individual.",
+        "Process designed to slow time.",
+        "Proof that something was attempted.",
+        "Permission to do what was already decided.",
+        "Assigned, not chosen.",
+        "Staple food. Symbol of survival.",
+        "Mandatory. Outcomes predetermined.",
+        "Protects workers from workers.",
+        "Failure explained as success.",
+
+        "Promise measured in patience.",
+        "Required when questions arise.",
+        "Expected without reward.",
+        "Given today for tomorrow.",
+        "Temporary condition. Permanent feeling.",
+        "Watching without blinking.",
+        "Protection from dangerous ideas.",
+        "Where leaving becomes difficult.",
+        "Movement paused for inspection.",
+        "Allows travel. Restricts freedom.",
+
+        "Speaks when people cannot.",
+        "Exists even when unclear.",
+        "Meaning hidden by design.",
+        "Counts without context.",
+        "Broadcasts without explanation.",
+        "Memory that never forgets.",
+        "Life reduced to paper.",
+        "Written to satisfy authority.",
+        "Questions with no correct answers.",
+        "Truth produced under pressure.",
+
+        "Approved version of events.",
+        "Flexible when necessary.",
+        "Straight path. Slow progress.",
+        "Issued, not requested.",
+        "Safer than speaking.",
+        "Simpler than thinking.",
+        "Edited for clarity.",
+        "Always under construction.",
+        "Declared before achieved.",
+      ];
+
+      var currentWord = "";
+      var currentHint = "";
+
+      function scramble(word) {
+        var a = word.split("");
+        for (var i = a.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = a[i];
+          a[i] = a[j];
+          a[j] = t;
+        }
+        return a.join("");
+      }
+
+      function newWord() {
+        var i = Math.floor(Math.random() * words.length);
+        currentWord = words[i];
+        currentHint = hints[i];
+
+        document.getElementById("scrambled").textContent =
+          "SCRAMBLED: " + scramble(currentWord);
+
+        document.getElementById("msg").textContent = "";
+        document.getElementById("answer").value = "";
+      }
+
+      function hint() {
+        document.getElementById("msg").textContent = "HINT: " + currentHint;
+      }
+
+      function check() {
+        var input = document.getElementById("answer").value.toUpperCase();
+        if (input === currentWord) {
+          document.getElementById("msg").textContent =
+            "CORRECT. MEANING CONFIRMED.";
+        } else {
+          document.getElementById("msg").textContent =
+            "INCORRECT. THINK AGAIN.";
+        }
+      }
+
+      newWord();
+    </script>
+  </body>
+</html>
