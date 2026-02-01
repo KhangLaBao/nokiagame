@@ -1,91 +1,85 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <title>KGB Memory Test</title>
-</head>
+  <head>
+    <title>KGB Memory Test</title>
+  </head>
 
-<body style="
-  background:#111;
-  color:#0f0;
-  font-family:Courier, monospace;
-  font-size:12px;
-  text-align:center;
-  margin:6px;
-">
-
-<h3>KGB MEMORY TEST</h3>
-<p>MEMORIZE. REPEAT. OBEY.</p>
-
-
-
-<p id="display" style="font-weight:bold;margin:6px;"></p>
-
-<button onclick="hide()">HIDE CODE</button>
-<br><br>
-
-<input id="answer" type="text"
+  <body
     style="
-    background:#fff;
-    color:#000;
-    border:1px solid #000;
-    font-family:Courier, monospace;
-    font-size:12px;
-    padding:2px;
-  "
-  placeholder="TYPE CODE">
+      background: #111;
+      color: #0f0;
+      font-family: Courier, monospace;
+      font-size: 12px;
+      text-align: center;
+      margin: 6px;
+    "
+  >
+    <h3>KGB MEMORY TEST</h3>
+    <p>MEMORIZE. REPEAT. OBEY.</p>
 
-<br><br>
+    <p id="display" style="font-weight: bold; margin: 6px"></p>
 
-<button id="submitBtn" onclick="check()" disabled>SUBMIT</button>
-<button onclick="start()">NEW CODE</button> <br>
-<button onclick="window.location.href='../../index.html'">◀ Exit</button>
-<p id="msg" style="margin-top:6px;"></p>
+    <button onclick="hide()">HIDE CODE</button>
+    <br /><br />
 
-<script>
-var code = "";
-var showing = false;
+    <input
+      id="answer"
+      type="text"
+      style="background: #fff; color: #000; border: 1px solid #000"
+      placeholder="TYPE CODE"
+    />
 
-function start() {
-  var nums = [];
-  for (var i = 0; i < 4; i++) {
-    nums.push(Math.floor(Math.random() * 10));
-  }
-  code = nums.join("");
-  showing = true;
+    <br /><br />
 
-  document.getElementById("display").innerHTML =
-    "MEMORIZE: <b>" + code + "</b>";
+    <button id="submitBtn" onclick="check()" disabled>SUBMIT</button>
+    <button onclick="start()">NEW CODE</button> <br />
+    <button onclick="window.location.href = '../../index.html'">◀ Exit</button>
+    <p id="msg" style="margin-top: 6px"></p>
 
-  document.getElementById("msg").innerHTML = "";
-  document.getElementById("answer").value = "";
-  document.getElementById("submitBtn").disabled = true;
-}
+    <script>
+      var code = "";
+      var showing = false;
 
-function hide() {
-  if (!showing) return;
+      function start() {
+        var nums = [];
+        for (var i = 0; i < 4; i++) {
+          nums.push(Math.floor(Math.random() * 10));
+        }
+        code = nums.join("");
+        showing = true;
 
-  document.getElementById("display").innerHTML = "CODE HIDDEN";
-  showing = false;
+        document.getElementById("display").innerHTML =
+          "MEMORIZE: <b>" + code + "</b>";
 
-  // NOW typing + submit is allowed
-  document.getElementById("submitBtn").disabled = false;
-  document.getElementById("answer").focus();
-}
+        document.getElementById("msg").innerHTML = "";
+        document.getElementById("answer").value = "";
+        document.getElementById("submitBtn").disabled = true;
+      }
 
-function check() {
-  var input = document.getElementById("answer").value;
+      function hide() {
+        if (!showing) return;
 
-  if (input === code) {
-    document.getElementById("msg").innerHTML =
-      "ACCESS GRANTED. PARTY SATISFIED.";
-  } else {
-    document.getElementById("msg").innerHTML =
-      "INCORRECT. INTERROGATION FAILED.";
-  }
-}
+        document.getElementById("display").innerHTML = "CODE HIDDEN";
+        showing = false;
 
-start();
-</script>
+        // NOW typing + submit is allowed
+        document.getElementById("submitBtn").disabled = false;
+        document.getElementById("answer").focus();
+      }
 
-</body>
+      function check() {
+        var input = document.getElementById("answer").value;
+
+        if (input === code) {
+          document.getElementById("msg").innerHTML =
+            "ACCESS GRANTED. PARTY SATISFIED.";
+        } else {
+          document.getElementById("msg").innerHTML =
+            "INCORRECT. INTERROGATION FAILED.";
+        }
+      }
+
+      start();
+    </script>
+  </body>
 </html>
