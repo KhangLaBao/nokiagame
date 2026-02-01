@@ -16,7 +16,7 @@
 
 <h3 style="margin:2px 0;">KGB MEMORY TEST</h3>
 <p style="margin:2px 0;">MEMORIZE. REPEAT. OBEY.</p>
-
+<p id="display" style="margin:6px 0;font-weight:bold;"></p>
 <!-- DIFFICULTY SELECT -->
 <p style="margin:4px 0;">
   DIFFICULTY:
@@ -27,7 +27,7 @@
   <label><input type="radio" name="diff" value="300"> DIRECTOR</label>
 </p>
 
-<p id="display" style="margin:6px 0;font-weight:bold;"></p>
+
 
 <input id="answer" type="text"
   style="width:120px;font-family:Courier, monospace;font-size:12px;"
@@ -47,16 +47,7 @@
 <script>
 var code = "";
 var showing = true;
-var time = 400;
-
-function getTime() {
-  var radios = document.getElementsByName("diff");
-  for (var i = 0; i < radios.length; i++) {
-    if (radios[i].checked) {
-      time = parseInt(radios[i].value);
-    }
-  }
-}
+var time = 800;
 
 function start() {
   getTime();
@@ -75,6 +66,16 @@ function start() {
 
   setTimeout(hide, time);
 }
+
+function getTime() {
+  var radios = document.getElementsByName("diff");
+  for (var i = 0; i < radios.length; i++) {
+    if (radios[i].checked) {
+      time = parseInt(radios[i].value);
+    }
+  }
+}
+
 
 function hide() {
   document.getElementById("display").textContent =
