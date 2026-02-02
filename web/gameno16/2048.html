@@ -65,18 +65,25 @@ function addTile() {
 function draw() {
   var t = document.getElementById("grid");
   t.innerHTML = "";
+
   for (var i = 0; i < size; i++) {
     var r = t.insertRow();
     for (var j = 0; j < size; j++) {
       var c = r.insertCell();
+
       c.style.width = "22px";
       c.style.height = "22px";
       c.style.textAlign = "center";
-      c.style.background = "#000";
-      c.innerHTML = grid[i][j] ? grid[i][j] : "";
+      c.style.border = "1px solid #0f0";   // ← CRITICAL
+      c.style.background = "#111";         // ← NOT pure black
+      c.style.color = "#0f0";
+      c.style.fontSize = "11px";
+
+      c.innerHTML = grid[i][j] ? grid[i][j] : "&nbsp;";
     }
   }
 }
+
 
 function slide(row) {
   var arr = [];
